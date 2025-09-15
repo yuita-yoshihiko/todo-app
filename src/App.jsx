@@ -42,6 +42,13 @@ function App() {
     setTodos(updatedTodos);
   };
 
+  const updateTodo = (id, newText) => {
+    const updatedTodos = todos.map(todo =>
+      todo.id === id ? { ...todo, text: newText } : todo
+    );
+    setTodos(updatedTodos);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-md mx-auto">
@@ -51,8 +58,12 @@ function App() {
 
         <TodoForm onAddTodo={addTodo} />
 
-        {/* 削除関数をPropsとして渡す */}
-        <TodoList todos={todos} onDeleteTodo={deleteTodo} />
+        {/* 更新関数をPropsとして渡す */}
+        <TodoList
+          todos={todos}
+          onDeleteTodo={deleteTodo}
+          onUpdateTodo={updateTodo}
+        />
       </div>
     </div>
   )
