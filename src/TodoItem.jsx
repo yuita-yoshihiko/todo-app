@@ -1,7 +1,7 @@
 // src/TodoItem.jsx
 import { useState } from 'react';
 
-function TodoItem({ todo, onDeleteTodo, onUpdateTodo }) {
+function TodoItem({ todo, onDeleteTodo, onUpdateTodo, onToggleTodo }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(todo.text);
 
@@ -22,13 +22,11 @@ function TodoItem({ todo, onDeleteTodo, onUpdateTodo }) {
     setIsEditing(false);
   };
 
-  // 編集を保存
   const handleEditSave = () => {
     if (editText.trim() === '') {
       return;
     }
 
-    // 実際の更新処理を呼び出す
     onUpdateTodo(todo.id, editText.trim());
     setIsEditing(false);
   };
@@ -41,12 +39,25 @@ function TodoItem({ todo, onDeleteTodo, onUpdateTodo }) {
     }
   };
 
+  // チェックボックスの変更処理
+  const handleToggle = () => {
+    onToggleTodo(todo.id);
+  };
+
   return (
-    <div className={`p-3 rounded shadow flex justify-between items-center ${
+    <div className={`p-3 rounded shadow flex items-center gap-3 ${
       todo.completed
         ? 'bg-green-50 border border-green-200'
         : 'bg-white'
     }`}>
+      {/* onChange イベントを追加 */}
+      <input
+        type="checkbox"
+        checked={todo.completed}
+        onChange={handleToggle}
+        className="w-5 h-5"
+      />
+
       <div className="flex-1">
         {isEditing ? (
           <div className="flex gap-2">
@@ -89,7 +100,7 @@ function TodoItem({ todo, onDeleteTodo, onUpdateTodo }) {
 
       <button
         onClick={handleDelete}
-        className="ml-4 px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 focus:outline-none"
+        className="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 focus:outline-none"
       >
         削除
       </button>

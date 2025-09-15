@@ -1,7 +1,7 @@
 // src/TodoList.jsx
 import TodoItem from './TodoItem';
 
-function TodoList({ todos, onDeleteTodo, onUpdateTodo }) {
+function TodoList({ todos, onDeleteTodo, onUpdateTodo, onToggleTodo }) {
   return (
     <div className="space-y-2">
       {todos.map((todo) => (
@@ -9,7 +9,8 @@ function TodoList({ todos, onDeleteTodo, onUpdateTodo }) {
           key={todo.id}
           todo={todo}
           onDeleteTodo={onDeleteTodo}
-          onUpdateTodo={onUpdateTodo} // 更新関数を渡す
+          onUpdateTodo={onUpdateTodo}
+          onToggleTodo={onToggleTodo}
         />
       ))}
     </div>

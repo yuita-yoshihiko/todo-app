@@ -49,6 +49,13 @@ function App() {
     setTodos(updatedTodos);
   };
 
+  const toggleTodo = (id) => {
+    const updatedTodos = todos.map(todo =>
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    );
+    setTodos(updatedTodos);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-md mx-auto">
@@ -58,11 +65,12 @@ function App() {
 
         <TodoForm onAddTodo={addTodo} />
 
-        {/* 更新関数をPropsとして渡す */}
+        {/* 切り替え関数をPropsとして渡す */}
         <TodoList
           todos={todos}
           onDeleteTodo={deleteTodo}
           onUpdateTodo={updateTodo}
+          onToggleTodo={toggleTodo}
         />
       </div>
     </div>
