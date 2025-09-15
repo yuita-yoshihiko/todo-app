@@ -1,25 +1,37 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import TodoList from './TodoList';
 import TodoForm from './TodoForm';
 
 function App() {
-  const [todos, setTodos] = useState([
-    {
-      id: 1,
-      text: "Reactの基礎を学ぶ",
-      completed: false
-    },
-    {
-      id: 2,
-      text: "Todoアプリを作成する",
-      completed: false
-    },
-    {
-      id: 3,
-      text: "JavaScriptの復習をする",
-      completed: true
+  // 初期値をlocalStorageから読み込む
+  const [todos, setTodos] = useState(() => {
+    const savedTodos = localStorage.getItem('todos');
+    if (savedTodos) {
+      return JSON.parse(savedTodos);
     }
-  ]);
+    // localStorageにデータがない場合のデフォルトデータ
+    return [
+      {
+        id: 1,
+        text: "Reactの基礎を学ぶ",
+        completed: false
+      },
+      {
+        id: 2,
+        text: "Todoアプリを作成する",
+        completed: false
+      },
+      {
+        id: 3,
+        text: "JavaScriptの復習をする",
+        completed: true
+      }
+    ];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todos));
+  }, [todos]);
 
   const generateNewId = () => {
     if (todos.length === 0) return 1;
@@ -65,7 +77,6 @@ function App() {
 
         <TodoForm onAddTodo={addTodo} />
 
-        {/* 切り替え関数をPropsとして渡す */}
         <TodoList
           todos={todos}
           onDeleteTodo={deleteTodo}
